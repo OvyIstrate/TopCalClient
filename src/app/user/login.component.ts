@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { AuthService } from './auth.service'
+import { AuthService } from '../services/auth.service'
 import { Router } from '@angular/router'
 
 @Component({
@@ -19,10 +19,10 @@ export class LoginComponent {
 
   login(formValues) {
     this.authService.loginUser(formValues.userName, formValues.password)
-    this.router.navigate(['events'])
+    this.router.navigate(['meals'])
   }
 
   cancel() {
-    this.router.navigate(['events'])
+    this.router.navigate(['meals'])
   }
 }

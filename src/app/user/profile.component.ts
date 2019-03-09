@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { AuthService } from './auth.service'
+import { AuthService } from '../services/auth.service'
 import { Router} from '@angular/router'
 
 @Component({
@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
   saveProfile(formValues) {
     if (this.profileForm.valid) {
       this.authService.updateCurrentUser(formValues.firstName, formValues.lastName)
-      this.router.navigate(['events'])
+      this.router.navigate(['meals'])
     }
   }
 
@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['events'])
+    this.router.navigate(['meals'])
   }
        
 }
