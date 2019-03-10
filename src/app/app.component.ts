@@ -14,6 +14,6 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    this.auth.checkAuthenticationStatus();
+    // this.auth.checkAuthenticationStatus();
   }
 }

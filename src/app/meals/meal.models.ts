@@ -7,3 +7,10 @@ export interface IMeal{
     date:Date,
     time:Time
 }
+
+export interface IMealFilter{
+    fromDate:Date,
+    toDate:Date,
+    fromTime:Time,
+    toTime:Time
+}

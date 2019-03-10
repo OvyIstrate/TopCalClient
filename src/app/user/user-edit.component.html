@@ -1,0 +1,46 @@
+<h1> Edit {{user.userName}}</h1>
+<hr>
+<div class="col-md-6">
+    <form [formGroup]="editUserForm" (ngSubmit)="updateUser(editUserForm.value)" novalidate>
+        <div class="form-group" [ngClass]="{'error': editUserForm.controls.firstName?.invalid && editUserForm.controls.firstName?.touched}">
+            <label for="firstName">First Name:</label>
+            <em *ngIf="!validateFirstName() && editUserForm.controls.firstName.errors.required">Required</em>
+            <em *ngIf="!validateFirstName() && editUserForm.controls.firstName.errors.pattern">Invalid First Name!</em>
+            <input formControlName="firstName" name="firstName" required id="firstName" type="text" class="form-control" placeholder="First Name..." />
+        </div>
+        <div class="form-group" [ngClass]="{'error': editUserForm.controls.lastName?.invalid && editUserForm.controls.lastName?.touched}">
+            <label for="lastName">Last Name:</label>
+            <em *ngIf="!validateLastName() && editUserForm.controls.lastName.errors.required">Required</em>
+            <em *ngIf="!validateLastName() && editUserForm.controls.lastName.errors.pattern">Invalid Last Name!</em>
+            <input formControlName="lastName" name="lastName" required id="lastName" type="text" class="form-control" placeholder="Last Name..." />
+        </div>
+
+        <div class="form-group" [ngClass]="{'error': editUserForm.controls.email?.invalid && editUserForm.controls.email?.touched}">
+            <label for="email">Email:</label>
+            <em *ngIf="!validateEmail() && editUserForm.controls.email.errors.required">Required</em>
+            <em *ngIf="!validateEmail() && editUserForm.controls.email.errors.email">Invalid Email!</em>
+            <input formControlName="email" name="email" required id="email" type="email" type="email" class="form-control" placeholder="Email..." />
+        </div>
+        <div class="form-group">
+            <label for="role">Role:</label>
+            <select formControlName="role" name="role" required id="role" type="select" class="form-control" placeholder="Role...">
+                <option *ngFor="let role of roles" value={{role}}> {{role}} </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Calories Target:</label>
+            <input formControlName="caloriesTarget" name="caloriesTarget" required id="caloriesTarget" type="number" class="form-control" placeholder="caloriesTarget..." />
+        </div>
+
+        <button type="submit" [disabled]="editUserForm.invalid" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
+    </form>
+
+    <div *ngIf="registerMessage">
+        <span class="alert alert-link">{{registerMessage.message}}
+            You can Login 
+            <a [routerLink]="['/user/login']"> here </a>
+        </span>
+    </div>
+</div>

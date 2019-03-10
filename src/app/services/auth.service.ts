@@ -1,42 +1,57 @@
 import { Injectable } from '@angular/core'
-import { IUser } from '../user/user.model'
+import { IUser, Role, IRegisterUser } from '../user/user.model';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable()
 export class AuthService {
+    
   currentUser:IUser
 
   constructor(private http: HttpClient) {}
 
   loginUser(userName: string, password: string) {
 
-    let loginInfo = { username: userName, password: password };
+    let loginModel = { userName: userName, password: password };
     let options = { headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
 
-    return this.http.post('/api/user/token', loginInfo, options)
-      .pipe(tap(data => {
-        this.currentUser = <IUser>data['user'];
-      }))
-      .pipe(catchError(err => {
-        return of(false)
-      }))
+    return this.http.post('/api/auth/token', loginModel, options)
+    .pipe(tap(data => {
+      this.currentUser = <IUser>data;
+    }))
+    .pipe(catchError(err => {
+      return of(false)
+    }))
   }
 
   isAuthenticated() {
     return !!this.currentUser;
   }
 
-  checkAuthenticationStatus() {
-    this.http.get('/api/currentIdentity')
-    .pipe(tap(data => {
-      if(data instanceof Object) {
-        this.currentUser = <IUser>data;
-      }
-    }))
-    .subscribe();
+  hasManagerRole(){
+    return this.currentUser.role == Role.admin || this.currentUser.role == Role.manager;
   }
+
+  hasRegularRole()
+  {
+    return this.currentUser.role == Role.admin || this.currentUser.role == Role.regular;
+  }
+
+  register(registerUser: IRegisterUser) {
+    let options = { headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<IRegisterUser>('/api/auth/register', registerUser, options);
+  }
+
+  // checkAuthenticationStatus() {
+  //   this.http.get('/api/currentIdentity')
+  //   .pipe(tap(data => {
+  //     if(data instanceof Object) {
+  //       this.currentUser = <IUser>data;
+  //     }
+  //   }))
+  //   .subscribe();
+  // }
 
   updateCurrentUser(firstName:string, lastName:string) {
     this.currentUser.firstName = firstName

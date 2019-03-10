@@ -9,20 +9,33 @@ import { Router } from '@angular/router'
   `]
 })
 export class LoginComponent {
-  username
-  password
+  username = "admin";
+  password = "P@ssw0rd!";
   mouseoverLogin
+  loginInvalid = false;
 
   constructor(private authService:AuthService, private router:Router) {
 
   }
 
   login(formValues) {
-    this.authService.loginUser(formValues.userName, formValues.password)
-    this.router.navigate(['meals'])
+    this.authService.loginUser(formValues.userName, formValues.password).subscribe(resp => {
+      if(!resp)
+      {
+        this.loginInvalid = true;
+      }
+      else {
+        if(this.authService.hasRegularRole()){
+          this.router.navigate(['meals']);      
+        }
+        else {
+          this.router.navigate(['user/list']);
+        }
+      }
+    })
   }
 
   cancel() {
-    this.router.navigate(['meals'])
+    this.router.navigate(['home'])
   }
 }

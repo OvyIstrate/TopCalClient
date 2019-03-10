@@ -4,37 +4,39 @@ import { AuthService } from '../services/auth.service'
 import { Router} from '@angular/router'
 
 @Component({
-  templateUrl: './profile.component.html',
-  styles: [`
-    em {float:right; color:#E05C65; padding-left: 10px;}
-    .error input {background-color:#E3C3C5;}
-    .error ::-webkit-input-placeholder { color: #999; }
-    .error ::-moz-placeholder { color: #999; }
-    .error :-moz-placeholder { color:#999; }
-    .error :ms-input-placeholder { color: #999; }
-  `]
+  templateUrl: './user-settings.component.html',
+  styleUrls: ['./user-settings.component.css']
 })
-export class ProfileComponent implements OnInit {
-  profileForm:FormGroup
+export class UserSettingsComponent implements OnInit {
+  settingsForm:FormGroup
   private firstName:FormControl
   private lastName:FormControl
+  private caloriesTarget:FormControl
 
   constructor(private router:Router, private authService:AuthService) {
 
   }
 
   ngOnInit() {
+    if(!this.authService.isAuthenticated())
+    {
+      this.router.navigate(['user/login']);
+      return;
+    }
+
     this.firstName = new FormControl(this.authService.currentUser.firstName, [Validators.required, Validators.pattern('[a-zA-Z].*')])
     this.lastName = new FormControl(this.authService.currentUser.lastName, Validators.required)
+    this.caloriesTarget = new FormControl(this.authService.currentUser.caloriesTarget);
 
-    this.profileForm = new FormGroup({
+    this.settingsForm = new FormGroup({
       firstName: this.firstName,
-      lastName: this.lastName
+      lastName: this.lastName,
+      caloriesTarget: this.caloriesTarget
     })
   }
 
-  saveProfile(formValues) {
-    if (this.profileForm.valid) {
+  saveSettings(formValues) {
+    if (this.settingsForm.valid) {
       this.authService.updateCurrentUser(formValues.firstName, formValues.lastName)
       this.router.navigate(['meals'])
     }

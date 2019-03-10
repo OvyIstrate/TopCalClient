@@ -12,8 +12,12 @@ import { Error404Component } from './errors/404.component';
 import { MealResolver } from './meals/meal.resolver';
 import { MealListResolver } from './meals/meal-list.resolver';
 import { MealService } from './services/meal.service';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { HomeComponent } from './home.component';
+import { PasswordValidator } from './validators/password-validator.directive';
 
 @NgModule({
   declarations: [
@@ -21,16 +25,21 @@ import { FormsModule } from '@angular/forms';
     NavBarComponent,
     CreateMealComponent,
     MealListComponent,
+    HomeComponent,
     MealDetailsComponent,
     Error404Component
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     HttpClientModule
   ],
   providers: [
+    // { provide:HTTP_INTERCEPTORS, useClass:EnsureHttpsInterceptor, multi:true},
+    { provide:HTTP_INTERCEPTORS, useClass:JwtInterceptor, multi:true},
+    { provide:HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi:true},
     AuthService,
     MealResolver,
     MealListResolver,

@@ -1,18 +1,24 @@
 <div>
-    <h1>Edit Your Profile </h1>
+    <h1>User Settings </h1>
     <hr>
     <div class="col-md-4">
-        <form [formGroup]="profileForm" (ngSubmit)="saveProfile(profileForm.value)" autocomplete="off" novalidate>
+        <form [formGroup]="settingsForm" (ngSubmit)="saveSettings(settingsForm.value)" autocomplete="off" novalidate>
             <div class="form-group" [ngClass]="{'error' : !validateFirstName() }">
                 <label for="firstName">First Name:</label>
-                <em *ngIf="!validateFirstName() && profileForm.controls.firstName.errors.required">Required</em>
-                <em *ngIf="!validateFirstName() && profileForm.controls.firstName.errors.pattern">Must start with a letter</em>
+                <em *ngIf="!validateFirstName() && settingsForm.controls.firstName.errors.required">Required</em>
+                <em *ngIf="!validateFirstName() && settingsForm.controls.firstName.errors.pattern">Must start with a letter</em>
                 <input formControlName="firstName" id="firstName" type="text" class="form-control" placeholder="First Name..." />
             </div>
             <div class="form-group" [ngClass]="{'error' : !validateLastName() }">
                 <label for="lastName">Last Name:</label>
                 <em *ngIf="!validateLastName()">Required</em>
                 <input formControlName="lastName" id="lastName" type="text" class="form-control" placeholder="Last Name..." />
+            </div>
+
+            <div class="form-group" [ngClass]="{'error' : !validateLastName() }">
+                <label for="caloriesTarget">Calories Target:</label>
+                <!-- <em *ngIf="!validateLastName()">Required</em> -->
+                <input formControlName="caloriesTarget" id="caloriesTarget" type="number" class="form-control" placeholder="Calories Target..." />
             </div>
 
             <button type="submit" class="btn btn-primary">Save</button>

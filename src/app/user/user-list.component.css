@@ -1,0 +1,8 @@
+.operation-link {
+    margin-right: 20px;
+    color: forestgreen !important;
+}
+
+.clickable:hover {
+    cursor: pointer;
+}

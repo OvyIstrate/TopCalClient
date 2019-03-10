@@ -1,0 +1,59 @@
+<h1 *ngIf="!registerMessage">Register</h1>
+<h1 *ngIf="registerMessage">Registered!</h1>
+<hr>
+<div class="col-md-6">
+    <form *ngIf="!registerMessage" [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)" novalidate>
+        <div class="form-group" [ngClass]="{'error': registerForm.controls.userName?.invalid && registerForm.controls.userName?.touched}">
+            <label for="userName">Username:</label>
+            <em *ngIf="!validateUserName() && registerForm.controls.userName.errors.required">Required</em>
+            <em *ngIf="!validateUserName() && registerForm.controls.userName.errors.pattern">Incorrect Username!</em>
+            <input formControlName="userName" name="userName" required id="userName" type="text" class="form-control" placeholder="Username..." />
+        </div>
+        <div class="form-group" [ngClass]="{'error': registerForm.controls.firstName?.invalid && registerForm.controls.firstName?.touched}">
+            <label for="firstName">First Name:</label>
+            <em *ngIf="!validateFirstName() && registerForm.controls.firstName.errors.required">Required</em>
+            <em *ngIf="!validateFirstName() && registerForm.controls.firstName.errors.pattern">Invalid First Name!</em>
+            <input formControlName="firstName" name="firstName" required id="firstName" type="text" class="form-control" placeholder="First Name..." />
+        </div>
+        <div class="form-group" [ngClass]="{'error': registerForm.controls.lastName?.invalid && registerForm.controls.lastName?.touched}">
+            <label for="lastName">Last Name:</label>
+            <em *ngIf="!validateLastName() && registerForm.controls.lastName.errors.required">Required</em>
+            <em *ngIf="!validateLastName() && registerForm.controls.lastName.errors.pattern">Invalid Last Name!</em>
+            <input formControlName="lastName" name="lastName" required id="lastName" type="text" class="form-control" placeholder="Last Name..." />
+        </div>
+
+        <div class="form-group" [ngClass]="{'error': registerForm.controls.email?.invalid && registerForm.controls.email?.touched}">
+            <label for="email">Email:</label>
+            <em *ngIf="!validateEmail() && registerForm.controls.email.errors.required">Required</em>
+            <em *ngIf="!validateEmail() && registerForm.controls.email.errors.email">Invalid Email!</em>
+            <input formControlName="email" name="email" required id="email" type="email" type="email" class="form-control" placeholder="Email..." />
+        </div>
+
+        <div [formGroup]="passwordFormGroup">
+            <div class="form-group" [ngClass]="{'error': passwordFormGroup.controls.password?.invalid && passwordFormGroup.controls.password?.touched}">
+                <label for="password">Password:</label>
+                <em *ngIf="!validatePassword() && passwordFormGroup.controls.password.errors.required">Required</em>
+                <input formControlName="password" name="password" required id="password" type="text" type="password" class="form-control" placeholder="Password..." />
+            </div>
+
+            <div class="form-group" [ngClass]="{'error': passwordFormGroup.controls.confirm?.invalid && passwordFormGroup.controls.confirm?.touched}">
+                <label for="confirm">Confirm:</label>
+                <em *ngIf="!validateConfirm() && passwordFormGroup.controls.confirm.errors.required">Required</em>
+                <input formControlName="confirm" name="confirm" required id="confirm" type="text" type="password" class="form-control" placeholder="Confirm..." />
+            </div>
+
+            <em *ngIf="passwordFormGroup.errors?.doesMatchPassword">Password does not match</em>
+
+        </div>
+
+        <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
+    </form>
+
+    <div *ngIf="registerMessage">
+        <span class="alert alert-link">{{registerMessage.message}}
+            You can Login 
+            <a [routerLink]="['/user/login']"> here </a>
+        </span>
+    </div>
+</div>
