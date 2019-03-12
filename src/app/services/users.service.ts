@@ -14,34 +14,29 @@ export class UserService {
     }
 
     getUsers():Observable<IUser[]> {
-        return this.http.get<IUser[]>('/api/auth')
+        return this.http.get<IUser[]>('/api/user')
         .pipe(catchError(this.handleError<IUser[]>('getUsers', [])));
       }
     
       getUser(id:string):Observable<IUser> {
-        return this.http.get<IUser>('/api/auth/' + id)
+        return this.http.get<IUser>('/api/user/' + id)
           .pipe(catchError(this.handleError<IUser>('getUser')));
       }
     
       saveUser(user:IUser) {
         let options = { headers: new HttpHeaders({'Content-Type': 'application/json'})};
-        return this.http.post<IResponse>('/api/auth/create', user, options)
+        return this.http.post<IResponse>('/api/user/create', user, options)
           .pipe(catchError(this.handleError<IResponse>('saveUser')))
       }
     
       updateUser(user:IUser): Observable<IResponse> {
-        return this.http.put<IResponse>('/api/auth', user)
+        return this.http.put<IResponse>('/api/user', user)
         .pipe(catchError(this.handleError<IResponse>('updateUser')));
-      }
-
-      updateUserSettings(userSettings:IUserSettings): Observable<IResponse>{
-        return this.http.put<IResponse>('/api/auth/settings', userSettings)
-        .pipe(catchError(this.handleError<IResponse>('updateUserSettings')));
       }
 
       removeUser(userId: string): Observable<IResponse> {
           let options = { headers: new HttpHeaders({'Content-Type': 'application/json'})};
-          return this.http.delete<IResponse>('/api/auth/' + userId, options)
+          return this.http.delete<IResponse>('/api/user/' + userId, options)
           .pipe(catchError(this.handleError<IResponse>('removeUser')));
         }
     

@@ -39,15 +39,9 @@ export class UserSettingsComponent implements OnInit {
 
   saveSettings(userSettings:IUserSettings) {
     if (this.settingsForm.valid) {
-      this.userService.updateUserSettings(userSettings).subscribe(res =>{
+      this.authService.updateUserSettings(userSettings).subscribe(res =>{
         if(res.success)
         {
-          this.authService.currentUser.firstName = userSettings.firstName;
-          this.authService.currentUser.lastName = userSettings.lastName;
-          this.authService.currentUser.caloriesTarget = userSettings.caloriesTarget;
-
-          localStorage.setItem('identity', JSON.stringify(this.authService.currentUser));
-
           alert(res.message);
           this.router.navigate(["/home"]);
         }
