@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { IMeal } from './meal.models';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { MealService } from '../services/meal.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TOASTR_TOKEN, Toastr } from '../services/toastr.service';
 
 @Component({
     selector: 'meal-edit',
@@ -21,7 +22,8 @@ export class MealDetailsComponent implements OnInit {
     constructor(private authService:AuthService,
                 private mealService:MealService,
                 private router:Router,
-                private route:ActivatedRoute) {
+                private route:ActivatedRoute,
+                @Inject(TOASTR_TOKEN) private toastr:Toastr) {
                     
         if(!authService.isAuthenticated())
         {
@@ -54,11 +56,11 @@ export class MealDetailsComponent implements OnInit {
         meal.id = this.meal.id;
         this.mealService.updateMeal(meal).subscribe(res =>{
             if(res.success){
-                alert(res.message);
+                this.toastr.success(res.message);
                 this.router.navigate(["/meals"])
             }
             else {
-                alert("An error has occured when updating a meal!")
+                this.toastr.error("An error has occured when updating a meal!")
             }
         });
     }

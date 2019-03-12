@@ -1,9 +1,53 @@
-<div class="">
-    HOME PAGE
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure optio quaerat eos! Magnam ducimus saepe quibusdam minima recusandae atque. Ad dolore corporis necessitatibus totam reprehenderit error sunt incidunt consequuntur impedit?</p>
+<header>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active" style="background-image: url('../assets/food.png')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3 class="display-4">Food,</h3>
+                    <p class="lead">A very important aspect of our lives. Besides many other aspects, it dictates how well we operate.</p>
+                </div>
+            </div>
+            <!-- Slide Two - Set the background image for this slide in the line below -->
+            <div class="carousel-item" style="background-image: url('../assets/sport.png')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3 class="display-4">Sports</h3>
+                    <p class="lead">Also a big role player in our lives, it helps us look good and feel awesome.</p>
+                </div>
+            </div>
+            <!-- Slide Three - Set the background image for this slide in the line below -->
+            <div class="carousel-item" style="background-image: url('../assets/measure.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3 class="display-4">Measurments</h3>
+                    <p class="lead">Essential when you need to check your progress or change routines</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</header>
 
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore, perspiciatis maxime? Nesciunt temporibus odit rerum impedit quis iusto enim eaque! Accusamus cum est et laborum nihil esse, dolorem ad eos.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore, perspiciatis maxime? Nesciunt temporibus odit rerum impedit quis iusto enim eaque! Accusamus cum est et laborum nihil esse, dolorem ad eos.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore, perspiciatis maxime? Nesciunt temporibus odit rerum impedit quis iusto enim eaque! Accusamus cum est et laborum nihil esse, dolorem ad eos.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore, perspiciatis maxime? Nesciunt temporibus odit rerum impedit quis iusto enim eaque! Accusamus cum est et laborum nihil esse, dolorem ad eos.</p>
-</div>
+<!-- Page Content -->
+<section class="py-5">
+    <div class="container">
+        <h1 class="font-weight-light">Health and well-being are really important to us, </h1>
+        <p class="lead">that's why here at <span class="bold-text">TC (Top Calories)</span> we want to provide a series of digital tools that will help us develop better mesurements related to your health. Our application keeps you commited in keeping a healthy lifestyle.
+            By registering your meals in our system and setting up the prefered number of calories <span class="bold-text">you</span> would like to take on a daily basis we can provide you with a nice looking audit on how well you are doing on this new
+            healthy adventure.
+        </p>
+        <h2 class="font-weight-lighter">Where to start from ?</h2>
+        <p class="lead">You can either create an account <a [routerLink]="['/user/register']"> here </a> or you can contact our support team via email <a href="mailto:topcalContact@gmail.com">here</a> and a new account will be registered for you in short time. You will
+            receive an email with your newly created credentials. Please include in the mail any additional questions that you might have.</p>
+    </div>
+</section>

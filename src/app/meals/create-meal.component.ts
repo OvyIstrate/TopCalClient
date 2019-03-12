@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { FormControl, FormGroup, Validators, Validator } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MealService } from '../services/meal.service';
 import { IMeal } from './meal.models';
+import { TOASTR_TOKEN, Toastr } from '../services/toastr.service';
 
 @Component({
     selector: 'create-meal',
@@ -21,7 +22,8 @@ export class CreateMealComponent implements OnInit {
     
     constructor(private authService:AuthService,
                 private mealService:MealService,
-                private router:Router) {
+                private router:Router,
+                @Inject(TOASTR_TOKEN) private toastr:Toastr) {
         if(!authService.isAuthenticated())
         {
             router.navigate(["/home"]);
@@ -51,11 +53,11 @@ export class CreateMealComponent implements OnInit {
         this.mealService.saveMeal(meal).subscribe(res =>{
             if(res.success)
             {
-                alert(res.message);
+                this.toastr.success(res.message);
                 this.router.navigate(["/meals"])
             }
             else {
-                alert("An error occured when creating a meal!");
+                this.toastr.error("An error occured when creating a meal!");
             }
         });
     }

@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRouteSnapshot } from '@angular/router';
 import { UserService } from '../services/users.service';
 import { ActivatedRoute } from '@angular/router'
 import { IUser } from './user.model';
+import { Toastr, TOASTR_TOKEN } from '../services/toastr.service';
 
 @Component({
     selector: 'user-list',
@@ -17,7 +18,8 @@ export class UserListComponent implements OnInit {
     constructor(private authService:AuthService,
                 private userService:UserService,
                 private router:Router,
-                private route:ActivatedRoute) { }
+                private route:ActivatedRoute,
+                @Inject(TOASTR_TOKEN) private toastr:Toastr) { }
 
     ngOnInit(): void {
         if(!this.authService.isAuthenticated())
@@ -36,11 +38,11 @@ export class UserListComponent implements OnInit {
             this.userService.removeUser(user.id).subscribe(res => {
                 if(res.success)
                 {
-                    alert(res.message);
+                    this.toastr.success(res.message);
                     this.users = this.users.filter(u => u !== user);
                 }
                 else {
-                    alert("An error occured when removing an user");
+                    this.toastr.error("An error occured when removing an user");
                 }
             });
          }

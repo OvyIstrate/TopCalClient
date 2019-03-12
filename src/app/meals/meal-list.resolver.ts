@@ -13,7 +13,6 @@ export class MealListResolver implements Resolve<any> {
   resolve() {
     return this.mealService.getMeals().pipe(tap(meals => {
       meals.forEach(function(meal){
-        //TODO -> Map here the new grouping criteria.
         meal.dateString = new Date(meal.date).toDateString();
       })
     }));

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { IUser, Role } from './user.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/users.service';
+import { Toastr, TOASTR_TOKEN } from '../services/toastr.service';
 
 @Component({
     selector: 'user-edit',
@@ -22,7 +23,8 @@ export class UserEditComponent implements OnInit {
     constructor(private userService:UserService,
                 private authService:AuthService,
                 private route:ActivatedRoute,
-                private router:Router) {
+                private router:Router,
+                @Inject(TOASTR_TOKEN) private toastr:Toastr) {
                 
                     if(!this.authService.isAuthenticated())
                     {
@@ -61,12 +63,12 @@ export class UserEditComponent implements OnInit {
          this.userService.updateUser(user).subscribe(res =>{
              if(res.success)
              {
-                alert(res.message)
+                this.toastr.success(res.message);
                  this.router.navigate(["/user/list"]);
              }
              else {
                  //todo replace with _toastr
-                 alert("An error has occured when updating the user");
+                 this.toastr.error("An error has occured when updating the user");
              }
          });
      }

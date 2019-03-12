@@ -1,10 +1,9 @@
-<div class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">TopCal</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            </button>
-        </div>
+<div class="navbar navbar-expand-lg navbar-dark bg-dark navbar-static-top sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">TC</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
@@ -25,21 +24,18 @@
                 </li>
             </ul>
             <div class="navbar-header navbar-right">
-                <ul class="nav navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" *ngIf="!auth.isAuthenticated()" [routerLink]="['user/login']">Login</a>
-                        <div class="dropdown" *ngIf="auth.isAuthenticated()">
-                            <a class="nav-link" href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome {{auth.currentUser.firstName}}
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="nav-link" [routerLink]="['user/settings']"> Edit Settings </a>
-                                </li>
-                                <li>
-                                    <a class="clickable nav-link" [routerLink]="['/home']" (click)="auth.logout()">Logout</a>
-                                </li>
-                            </ul>
+                <ul class="nav navbar-dark navbar-nav">
+                    <li *ngIf="!auth.isAuthenticated()" class="nav-item">
+                        <a class="nav-link" [routerLink]="['user/login']">Login</a>
+                    </li>
+                    <li *ngIf="auth.isAuthenticated()" class="nav-item">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown">Welcome {{auth.currentUser.firstName}} </a>
+                        <span class="caret"></span>
+                        <div class="dropdown">
+                            <div class="dropdown-menu back-dropdown" *ngIf="auth.isAuthenticated()">
+                                <a class="dropdown-item" [routerLink]="['user/settings']"> Edit Settings </a>
+                                <a class="dropdown-item" [routerLink]="['/home']" (click)="auth.logout()">Logout</a>
+                            </div>
                         </div>
                     </li>
                 </ul>

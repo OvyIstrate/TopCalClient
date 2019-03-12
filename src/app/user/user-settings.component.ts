@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Inject } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from '../services/auth.service'
 import { Router} from '@angular/router'
 import { IUserSettings } from './user.model';
-import { UserService } from '../services/users.service';
+import { Toastr, TOASTR_TOKEN } from '../services/toastr.service';
 
 @Component({
   templateUrl: './user-settings.component.html',
@@ -15,7 +15,9 @@ export class UserSettingsComponent implements OnInit {
   private lastName:FormControl
   private caloriesTarget:FormControl
 
-  constructor(private router:Router,private authService:AuthService, private userService:UserService) {
+  constructor(private router:Router,
+    private authService:AuthService,
+    @Inject(TOASTR_TOKEN) private toastr:Toastr) {
   
   }
 
@@ -42,8 +44,11 @@ export class UserSettingsComponent implements OnInit {
       this.authService.updateUserSettings(userSettings).subscribe(res =>{
         if(res.success)
         {
-          alert(res.message);
+          this.toastr.success(res.message);
           this.router.navigate(["/home"]);
+        }
+        else {
+          this.toastr.error("An error has occured when updating the user settings");
         }
       })
     }

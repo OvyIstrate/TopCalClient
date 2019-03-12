@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/users.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IUser } from './user.model';
+import { TOASTR_TOKEN, Toastr } from '../services/toastr.service';
 
 @Component({
     selector: 'create-user',
@@ -22,7 +23,8 @@ export class CreateUserComponent implements OnInit {
     
     constructor(private userService:UserService,
         private authService:AuthService,
-        private router:Router) {
+        private router:Router,
+        @Inject(TOASTR_TOKEN) private toastr:Toastr) {
         
             if(!this.authService.isAuthenticated())
             {
@@ -61,11 +63,11 @@ export class CreateUserComponent implements OnInit {
         this.userService.saveUser(user).subscribe(res =>{
             if(res.success)
             {
-                alert(res.message);
+                this.toastr.success(res.message);
                 this.router.navigate(["user/list"]);
             }
             else{
-                alert("An error occured when saving creating an user!");
+                this.toastr.error("An error occured when saving creating an user!");
             }
         })
      }

@@ -19,6 +19,9 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { HomeComponent } from './home.component';
 import { NgDatepickerModule } from 'ng2-datepicker';
 import { GroupByPipe } from './pipes/groupBy.pipe';
+import { Toastr, TOASTR_TOKEN } from './services/toastr.service';
+
+let toastr:Toastr = window['toastr'];
 
 @NgModule({
   declarations: [
@@ -40,7 +43,7 @@ import { GroupByPipe } from './pipes/groupBy.pipe';
     HttpClientModule
   ],
   providers: [
-    // { provide:HTTP_INTERCEPTORS, useClass:EnsureHttpsInterceptor, multi:true},
+    {provide:TOASTR_TOKEN, useValue:toastr},
     { provide:HTTP_INTERCEPTORS, useClass:JwtInterceptor, multi:true},
     { provide:HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi:true},
     AuthService,

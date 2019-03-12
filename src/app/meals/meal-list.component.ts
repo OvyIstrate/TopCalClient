@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IMeal, IMealFilter, IDateMeal } from './meal.models';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SearchMealValidator } from '../validators/search-meal.validator';
 import { MealService } from '../services/meal.service';
+import { TOASTR_TOKEN, Toastr } from '../services/toastr.service';
 
 @Component({
     selector: 'meal-list',
@@ -13,6 +14,7 @@ import { MealService } from '../services/meal.service';
 })
 export class MealListComponent implements OnInit {
     meals:IMeal[]
+    searched:boolean
     targetCalories:number
     searchMealsForm:FormGroup
     fromDate:FormControl
@@ -23,7 +25,8 @@ export class MealListComponent implements OnInit {
     constructor(private authService:AuthService,
                 private route:ActivatedRoute,
                 private router:Router,
-                private mealService:MealService) {
+                private mealService:MealService,
+                @Inject(TOASTR_TOKEN) private toastr:Toastr) {
         if(!this.authService.isAuthenticated())
         {
             this.router.navigate(["/user/login"]);
@@ -36,6 +39,7 @@ export class MealListComponent implements OnInit {
 
         this.meals = this.route.snapshot.data["meals"];
         this.targetCalories = this.authService.currentUser.caloriesTarget;
+        this.searched = false;
      }
 
     ngOnInit(): void {
@@ -60,10 +64,16 @@ export class MealListComponent implements OnInit {
         if(filter.toDate != null){
             filter.toDate = new Date(filter.toDate.toUTCString());
         }
+        
         this.mealService.searchMeals(filter).subscribe(res =>
         {
+            res.forEach(function(meal){
+                meal.dateString = new Date(meal.date).toDateString();
+            });
+
             this.meals = res;
-        }, err => { alert(err)})
+            this.searched = true;
+        }, err => { this.toastr.error(err)})
      }
 
      removeMeal(mealId:string)
@@ -73,7 +83,7 @@ export class MealListComponent implements OnInit {
             this.mealService.removeMeal(mealId).subscribe((res) =>{
                 if(res.success)
                 {
-                    alert(res.message);
+                    this.toastr.success(res.message);
                     this.meals = this.meals.filter(x => x.id != mealId);
                 }
             });
