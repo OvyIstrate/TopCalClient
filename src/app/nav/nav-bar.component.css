@@ -7,6 +7,10 @@
     color: rgba(255, 255, 255, .5);
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 .dropdown-item:hover {
     background-color: #343a40;
     color: rgba(255, 255, 255, .75);

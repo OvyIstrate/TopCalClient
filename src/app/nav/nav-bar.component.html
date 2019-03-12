@@ -7,7 +7,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/home']">Home</a>
                 </li>
                 <li class="nav-item">
@@ -26,10 +26,10 @@
             <div class="navbar-header navbar-right">
                 <ul class="nav navbar-dark navbar-nav">
                     <li *ngIf="!auth.isAuthenticated()" class="nav-item">
-                        <a class="nav-link" [routerLink]="['user/login']">Login</a>
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="['user/login']">Login</a>
                     </li>
                     <li *ngIf="auth.isAuthenticated()" class="nav-item">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown">Welcome {{auth.currentUser.firstName}} </a>
+                        <a class="nav-link dropdown-toggle clickable" data-toggle="dropdown">Welcome {{auth.currentUser.firstName}} </a>
                         <span class="caret"></span>
                         <div class="dropdown">
                             <div class="dropdown-menu back-dropdown" *ngIf="auth.isAuthenticated()">
