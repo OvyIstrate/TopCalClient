@@ -18,6 +18,12 @@ export interface IUser {
     confirm:string,
   }
 
+  export interface IUserSettings{
+    firstName:string,
+    lastName:string,
+    caloriesTarget:number
+  }
+
   export enum Role{
     regular,
     manager,

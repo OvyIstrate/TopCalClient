@@ -1,5 +1,4 @@
 import { AbstractControl, Validator, FormGroup, NG_VALIDATORS } from '@angular/forms';
-import { Directive } from '@angular/core';
 
 export class PasswordValidator {
     

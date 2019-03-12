@@ -36,7 +36,11 @@ export class UserListComponent implements OnInit {
             this.userService.removeUser(user.id).subscribe(res => {
                 if(res.success)
                 {
+                    alert(res.message);
                     this.users = this.users.filter(u => u !== user);
+                }
+                else {
+                    alert("An error occured when removing an user");
                 }
             });
          }

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IMeal, IMealFilter } from './meal.models';
+import { IMeal, IMealFilter, IDateMeal } from './meal.models';
+import { FormGroup, FormControl } from '@angular/forms';
+import { SearchMealValidator } from '../validators/search-meal.validator';
+import { MealService } from '../services/meal.service';
 
 @Component({
     selector: 'meal-list',
@@ -9,10 +12,18 @@ import { IMeal, IMealFilter } from './meal.models';
     styleUrls: ['./meal-list.component.css']
 })
 export class MealListComponent implements OnInit {
-    filter:IMealFilter;
     meals:IMeal[]
-    constructor(private authService:AuthService,private route:ActivatedRoute, private router:Router) {
-        
+    targetCalories:number
+    searchMealsForm:FormGroup
+    fromDate:FormControl
+    toDate:FormControl
+    fromTime:FormControl
+    toTime:FormControl
+
+    constructor(private authService:AuthService,
+                private route:ActivatedRoute,
+                private router:Router,
+                private mealService:MealService) {
         if(!this.authService.isAuthenticated())
         {
             this.router.navigate(["/user/login"]);
@@ -24,15 +35,59 @@ export class MealListComponent implements OnInit {
         }
 
         this.meals = this.route.snapshot.data["meals"];
-        this.filter = {
-            fromDate:null,
-            toDate:null,
-            fromTime:null,
-            toTime: null
-        };
+        this.targetCalories = this.authService.currentUser.caloriesTarget;
      }
 
     ngOnInit(): void {
-        console.log(this.filter);
+        this.fromDate = new FormControl(new Date(), []);
+        this.toDate = new FormControl(new Date(), []);
+        this.fromTime = new FormControl(null, []);
+        this.toTime = new FormControl(null, []);
+        
+        this.searchMealsForm = new FormGroup({
+            fromDate:this.fromDate,
+            toDate:this.toDate,
+            fromTime: this.fromTime,
+            toTime: this.toTime
+        }, SearchMealValidator.validate.bind(this));
+     }
+
+     searchMeals(filter:IMealFilter)
+     {
+        if(filter.fromDate != null){
+            filter.fromDate = new Date(filter.fromDate.toUTCString());
+        }
+        if(filter.toDate != null){
+            filter.toDate = new Date(filter.toDate.toUTCString());
+        }
+        this.mealService.searchMeals(filter).subscribe(res =>
+        {
+            this.meals = res;
+        }, err => { alert(err)})
+     }
+
+     removeMeal(mealId:string)
+     {
+        if(confirm("Are you sure you want to remove this meal"))
+        {
+            this.mealService.removeMeal(mealId).subscribe((res) =>{
+                if(res.success)
+                {
+                    alert(res.message);
+                    this.meals = this.meals.filter(x => x.id != mealId);
+                }
+            });
+        }
+     }
+
+     getSum(meals:Array<IMeal>)
+     {
+         let sum = 0;
+
+         meals.forEach(function(meal){
+             sum += meal.numberOfCalories;
+         });
+
+         return sum;
      }
 }

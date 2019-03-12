@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { IMeal } from '../meals/meal.models';
+import { IMeal, IMealFilter, IResponse } from '../meals/meal.models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -21,15 +21,26 @@ export class MealService {
       .pipe(catchError(this.handleError<IMeal>('getMeal')));
   }
 
-  saveMeal(meal) {
+  searchMeals(filter:IMealFilter):Observable<IMeal[]> {
     let options = { headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    return this.http.post<IMeal>('/api/meal', meal, options)
-      .pipe(catchError(this.handleError<IMeal>('saveMeal')))
+    return this.http.post<IMeal[]>('/api/meal/search', filter, options)
+    .pipe(catchError(this.handleError<IMeal[]>('searchMeals')));
   }
 
-  updateMeal(meal:IMeal): any {
-    return this.http.put<IMeal>('/api/meal/' + meal.id, meal)
-    .pipe(catchError(this.handleError<IMeal>('updateMeal')));
+  saveMeal(meal) {
+    let options = { headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<IResponse>('/api/meal', meal, options)
+      .pipe(catchError(this.handleError<IResponse>('saveMeal')))
+  }
+
+  updateMeal(meal:IMeal): Observable<IResponse> {
+    return this.http.put<IResponse>('/api/meal/', meal)
+    .pipe(catchError(this.handleError<IResponse>('updateMeal')));
+  }
+
+  removeMeal(mealId:string): Observable<IResponse> {
+    return this.http.delete<IResponse>('/api/meal/'+ mealId)
+    .pipe(catchError(this.handleError<IResponse>('removeMeal')));
   }
 
   private handleError<T> (operation = 'operation', result?: T) {

@@ -19,6 +19,7 @@ export class AuthService {
     return this.http.post('/api/auth/token', loginModel, options)
     .pipe(tap(data => {
       this.currentUser = <IUser>data;
+      localStorage.setItem('identity', JSON.stringify(this.currentUser));
     }))
     .pipe(catchError(err => {
       return of(false)
@@ -26,6 +27,7 @@ export class AuthService {
   }
 
   isAuthenticated() {
+    this.currentUser = JSON.parse(localStorage.getItem('identity'));
     return !!this.currentUser;
   }
 
@@ -43,16 +45,6 @@ export class AuthService {
     return this.http.post<IRegisterUser>('/api/auth/register', registerUser, options);
   }
 
-  // checkAuthenticationStatus() {
-  //   this.http.get('/api/currentIdentity')
-  //   .pipe(tap(data => {
-  //     if(data instanceof Object) {
-  //       this.currentUser = <IUser>data;
-  //     }
-  //   }))
-  //   .subscribe();
-  // }
-
   updateCurrentUser(firstName:string, lastName:string) {
     this.currentUser.firstName = firstName
     this.currentUser.lastName = lastName
@@ -66,7 +58,7 @@ export class AuthService {
     this.currentUser = undefined;
 
     let options = { headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
-    return this.http.post('/api/logout', {}, options);
+    localStorage.removeItem('identity');
   }
   
 }

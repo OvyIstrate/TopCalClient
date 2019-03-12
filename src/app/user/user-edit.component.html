@@ -29,18 +29,11 @@
         </div>
 
         <div class="form-group">
-            <label for="role">Calories Target:</label>
+            <label for="caloriesTarget">Calories Target:</label>
             <input formControlName="caloriesTarget" name="caloriesTarget" required id="caloriesTarget" type="number" class="form-control" placeholder="caloriesTarget..." />
         </div>
 
         <button type="submit" [disabled]="editUserForm.invalid" class="btn btn-primary">Save</button>
         <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
     </form>
-
-    <div *ngIf="registerMessage">
-        <span class="alert alert-link">{{registerMessage.message}}
-            You can Login 
-            <a [routerLink]="['/user/login']"> here </a>
-        </span>
-    </div>
 </div>

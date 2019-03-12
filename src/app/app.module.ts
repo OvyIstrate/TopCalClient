@@ -7,7 +7,7 @@ import { NavBarComponent } from './nav/nav-bar.component';
 import { AuthService } from './services/auth.service';
 import { CreateMealComponent } from './meals/create-meal.component';
 import { MealListComponent } from './meals/meal-list.component';
-import { MealDetailsComponent } from './meals/meal-details.component';
+import { MealDetailsComponent } from './meals/meal-edit.component';
 import { Error404Component } from './errors/404.component';
 import { MealResolver } from './meals/meal.resolver';
 import { MealListResolver } from './meals/meal-list.resolver';
@@ -17,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { HomeComponent } from './home.component';
-import { PasswordValidator } from './validators/password-validator.directive';
+import { NgDatepickerModule } from 'ng2-datepicker';
+import { GroupByPipe } from './pipes/groupBy.pipe';
 
 @NgModule({
   declarations: [
@@ -27,10 +28,12 @@ import { PasswordValidator } from './validators/password-validator.directive';
     MealListComponent,
     HomeComponent,
     MealDetailsComponent,
+    GroupByPipe,
     Error404Component
   ],
   imports: [
     BrowserModule,
+    NgDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),

@@ -59,8 +59,15 @@ export class UserEditComponent implements OnInit {
      {
          user.id = this.user.id;
          this.userService.updateUser(user).subscribe(res =>{
-             alert(res.message)
-             this.router.navigate(["/user/list"]);
+             if(res.success)
+             {
+                alert(res.message)
+                 this.router.navigate(["/user/list"]);
+             }
+             else {
+                 //todo replace with _toastr
+                 alert("An error has occured when updating the user");
+             }
          });
      }
 

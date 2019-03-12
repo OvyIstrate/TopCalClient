@@ -59,13 +59,19 @@ export class CreateUserComponent implements OnInit {
      createUser(user:IUser)
      {
         this.userService.saveUser(user).subscribe(res =>{
-            alert(res);
-            this.router.navigate(["user/list"]);
+            if(res.success)
+            {
+                alert(res.message);
+                this.router.navigate(["user/list"]);
+            }
+            else{
+                alert("An error occured when saving creating an user!");
+            }
         })
      }
 
      cancel(){
-         this.router.navigate(['/users/list']);
+         this.router.navigate(['/user/list']);
      }
 
      validateUserName()

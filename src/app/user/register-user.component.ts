@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { IRegisterUser } from './user.model';
 import { FormControl, Validators, FormGroup, EmailValidator, Validator } from '@angular/forms';
-import { PasswordValidator } from '../validators/password-validator.directive';
+import { PasswordValidator } from '../validators/password.validator';
 
 @Component({
     selector: 'register-user',

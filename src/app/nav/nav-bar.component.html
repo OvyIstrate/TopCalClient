@@ -21,7 +21,7 @@
                     <a class="nav-link" [routerLink]="['/meals']" *ngIf="auth.isAuthenticated() && auth.hasRegularRole()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Meals</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/meals/new']" *ngIf="auth.isAuthenticated() && auth.hasRegularRole()" routerLinkActive="active">Create Meal</a>
+                    <a class="nav-link" [routerLink]="['/meals/create']" *ngIf="auth.isAuthenticated() && auth.hasRegularRole()" routerLinkActive="active">Create Meal</a>
                 </li>
             </ul>
             <div class="navbar-header navbar-right">

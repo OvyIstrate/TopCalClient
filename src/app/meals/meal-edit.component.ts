@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { FormControl, FormGroup, Validators, Validator } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MealService } from '../services/meal.service';
 import { IMeal } from './meal.models';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { MealService } from '../services/meal.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector: 'create-meal',
-    templateUrl: './create-meal.component.html',
-    styleUrls: ['./create-meal.component.css']
+    selector: 'meal-edit',
+    templateUrl: './meal-edit.component.html',
+    styleUrls: ['./meal-edit.component.css']
 })
-export class CreateMealComponent implements OnInit {
-    isDirty: any;
-    
-    createMealForm:FormGroup
+export class MealDetailsComponent implements OnInit {
+    meal:IMeal
+    editMealForm:FormGroup
     date:FormControl
     description:FormControl
     time:FormControl
@@ -21,7 +20,9 @@ export class CreateMealComponent implements OnInit {
     
     constructor(private authService:AuthService,
                 private mealService:MealService,
-                private router:Router) {
+                private router:Router,
+                private route:ActivatedRoute) {
+                    
         if(!authService.isAuthenticated())
         {
             router.navigate(["/home"]);
@@ -30,15 +31,17 @@ export class CreateMealComponent implements OnInit {
         {
             router.navigate(["/users"]);
         }
+
+        this.meal = route.snapshot.data["meal"];
      }
 
     ngOnInit(): void {
-        this.date = new FormControl(new Date(), [Validators.required])
-        this.description = new FormControl('', [Validators.required])
-        this.time = new FormControl('', [Validators.required])
-        this.numberOfCalories = new FormControl(0, [Validators.required, Validators.max(4000)])
+        this.date = new FormControl(new Date(this.meal.date), [Validators.required])
+        this.description = new FormControl(this.meal.description, [Validators.required])
+        this.time = new FormControl(this.meal.time, [Validators.required])
+        this.numberOfCalories = new FormControl(this.meal.numberOfCalories, [Validators.required, Validators.max(4000)])
         
-        this.createMealForm = new FormGroup({
+        this.editMealForm = new FormGroup({
             date:this.date,
             description:this.description,
             time:this.time,
@@ -46,46 +49,41 @@ export class CreateMealComponent implements OnInit {
         })
      }
 
-    createMeal(meal:IMeal)
+    updateMeal(meal:IMeal)
     {
-        this.mealService.saveMeal(meal).subscribe(res =>{
-            if(res.success)
-            {
+        meal.id = this.meal.id;
+        this.mealService.updateMeal(meal).subscribe(res =>{
+            if(res.success){
                 alert(res.message);
                 this.router.navigate(["/meals"])
             }
             else {
-                alert("An error occured when creating a meal!");
+                alert("An error has occured when updating a meal!")
             }
         });
     }
 
-    cancel()
-    {
+    cancel(){
         this.router.navigate(["meals"]);
     }
 
     
-    validateDate()
-    {
+    validateDate() {
         return this.date.valid || this.date.untouched;
 
     }
     
-    validateDescription()
-    {
+    validateDescription() {
         return this.description.valid || this.description.untouched;
 
     }
 
-    validateTime()
-    {
+    validateTime() {
         return this.time.valid || this.time.untouched;
 
     }
 
-    validateNumberOfCalories()
-    {
+    validateNumberOfCalories() {
         return this.numberOfCalories.valid || this.numberOfCalories.untouched;
     }
 }

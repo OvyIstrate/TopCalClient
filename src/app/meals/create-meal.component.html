@@ -1,0 +1,31 @@
+<h1> Create Meal</h1>
+<hr>
+<div class="col-md-6">
+    <form [formGroup]="createMealForm" (ngSubmit)="createMeal(createMealForm.value)" novalidate>
+        <div class="form-group" [ngClass]="{'error': createMealForm.controls.date?.invalid && createMealForm.controls.date?.touched}">
+            <label for="date">Date:</label>
+            <em *ngIf="!validateDate() && createMealForm.controls.date.errors.required">Required</em>
+            <ng-datepicker formControlName="date"></ng-datepicker>
+        </div>
+        <div class="form-group" [ngClass]="{'error': createMealForm.controls.description?.invalid && createMealForm.controls.description?.touched}">
+            <label for="description">Description:</label>
+            <em *ngIf="!validateDescription() && createMealForm.controls.description.errors.required">Required</em>
+            <input formControlName="description" name="description" required id="description" type="text" class="form-control" placeholder="Description..." />
+        </div>
+
+        <div class="form-group" [ngClass]="{'error': createMealForm.controls.time?.invalid && createMealForm.controls.time?.touched}">
+            <label for="time">Time:</label>
+            <em *ngIf="!validateTime() && createMealForm.controls.time.errors.required">Required</em>
+            <input formControlName="time" name="time" required id="time" type="time" type="time" class="form-control" placeholder="Time..." />
+        </div>
+
+        <div class="form-group" [ngClass]="{'error': createMealForm.controls.numberOfCalories?.invalid && createMealForm.controls.numberOfCalories?.touched}">
+            <label for="numberOfCalories">Number of calories:</label>
+            <em *ngIf="!validateNumberOfCalories() && createMealForm.controls.numberOfCalories.errors.required">Required</em>
+            <input formControlName="numberOfCalories" name="numberOfCalories" required id="numberOfCalories" type="number" class="form-control" placeholder="Meal calories..." />
+        </div>
+
+        <button type="submit" [disabled]="createMealForm.invalid" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
+    </form>
+</div>

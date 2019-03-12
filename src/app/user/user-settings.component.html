@@ -15,13 +15,13 @@
                 <input formControlName="lastName" id="lastName" type="text" class="form-control" placeholder="Last Name..." />
             </div>
 
-            <div class="form-group" [ngClass]="{'error' : !validateLastName() }">
+            <div class="form-group" [ngClass]="{'error' : !validateCaloriesTarget() }">
                 <label for="caloriesTarget">Calories Target:</label>
-                <!-- <em *ngIf="!validateLastName()">Required</em> -->
+                <em *ngIf="!validateCaloriesTarget()">Required</em>
                 <input formControlName="caloriesTarget" id="caloriesTarget" type="number" class="form-control" placeholder="Calories Target..." />
             </div>
 
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" [disabled]="settingsForm.invalid" class="btn btn-primary">Save</button>
             <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
         </form>
     </div>
